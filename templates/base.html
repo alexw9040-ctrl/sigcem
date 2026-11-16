@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SIGCEM{% endblock %} · SIGCEM</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="brand-mark">S</div><div><strong>SIGCEM</strong><small>Sistema cemiterial</small></div></div>
+    <div class="municipio"><span class="eyebrow">MUNICÍPIO</span><strong>{{ settings.get('municipio','Ararendá – CE') }}</strong><span>{{ settings.get('cemiterio_nome','Cemitério Municipal') }}</span></div>
+    <nav class="nav">
+      <a class="nav-item {% if request.path == '/' %}active{% endif %}" href="{{ url_for('dashboard') }}"><span class="nav-icon">⌂</span>Painel inicial</a>
+      <div class="nav-label">REGISTROS</div>
+      <a class="nav-item {% if request.path.startswith('/falecidos') %}active{% endif %}" href="{{ url_for('falecidos') }}"><span class="nav-icon">◌</span>Falecidos</a>
+      <a class="nav-item {% if request.path.startswith('/sepulturas') or request.path == '/mapa' %}active{% endif %}" href="{{ url_for('sepulturas') }}"><span class="nav-icon">▦</span>Sepulturas e mapa</a>
+      <a class="nav-item {% if request.path.startswith('/sepultamentos') %}active{% endif %}" href="{{ url_for('novo_sepultamento') }}"><span class="nav-icon">＋</span>Sepultamentos</a>
+      <a class="nav-item {% if request.path.startswith('/familiares') %}active{% endif %}" href="{{ url_for('familiares') }}"><span class="nav-icon">◯</span>Familiares</a>
+      <div class="nav-label">OPERAÇÃO</div>
+      <a class="nav-item {% if request.path.startswith('/movimentacoes') %}active{% endif %}" href="{{ url_for('movimentacoes') }}"><span class="nav-icon">↔</span>Movimentações</a>
+      <a class="nav-item {% if request.path.startswith('/solicitacoes') %}active{% endif %}" href="{{ url_for('solicitacoes') }}"><span class="nav-icon">▤</span>Solicitações</a>
+      <a class="nav-item {% if request.path.startswith('/reformas') %}active{% endif %}" href="{{ url_for('reformas') }}"><span class="nav-icon">⌁</span>Reformas e obras</a>
+      <a class="nav-item {% if request.path.startswith('/manutencao') %}active{% endif %}" href="{{ url_for('manutencao') }}"><span class="nav-icon">⚙</span>Manutenção</a>
+      <div class="nav-label">ADMINISTRAÇÃO</div>
+      <a class="nav-item {% if request.path.startswith('/documentos') %}active{% endif %}" href="{{ url_for('documentos') }}"><span class="nav-icon">▧</span>Arquivo digital</a>
+      <a class="nav-item {% if request.path.startswith('/financeiro') %}active{% endif %}" href="{{ url_for('financeiro') }}"><span class="nav-icon">¤</span>Financeiro</a>
+      <a class="nav-item {% if request.path.startswith('/relatorios') %}active{% endif %}" href="{{ url_for('relatorios') }}"><span class="nav-icon">▥</span>Relatórios</a>
+      <a class="nav-item {% if request.path.startswith('/usuarios') %}active{% endif %}" href="{{ url_for('usuarios') }}"><span class="nav-icon">◎</span>Usuários</a>
+      <a class="nav-item {% if request.path.startswith('/backup') %}active{% endif %}" href="{{ url_for('backup') }}"><span class="nav-icon">◫</span>Backup e segurança</a>
+      <a class="nav-item {% if request.path.startswith('/auditoria') %}active{% endif %}" href="{{ url_for('auditoria') }}"><span class="nav-icon">⌁</span>Auditoria</a>
+      <a class="nav-item {% if request.path.startswith('/configuracoes') %}active{% endif %}" href="{{ url_for('configuracoes') }}"><span class="nav-icon">⚑</span>Configurações</a>
+    </nav>
+    <div class="sidebar-foot"><span class="status-dot"></span><span>Modo local ativo</span></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar"><button class="icon-btn menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button><form class="global-search" action="{{ url_for('buscar') }}"><span>⌕</span><input name="q" placeholder="Buscar falecido, sepultura ou protocolo..." value="{{ request.args.get('q','') }}"></form><div class="top-actions"><span class="offline-pill"><i></i> Offline pronto</span><div class="user-chip"><div class="avatar">{{ (current_user.nome[:1] if current_user else 'A')|upper }}</div><div><strong>{{ current_user.nome if current_user else 'Acesso' }}</strong><small>{{ current_user.perfil if current_user else 'Sistema' }}</small></div></div><a href="{{ url_for('logout') }}" class="icon-btn" title="Sair">↪</a></div></header>
+    {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}<button onclick="this.parentElement.remove()">×</button></div>{% endfor %}</div>{% endif %}{% endwith %}
+    <div class="page-wrap">{% block content %}{% endblock %}</div>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
