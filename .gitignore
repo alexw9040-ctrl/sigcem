@@ -1,0 +1,13 @@
+data/*.db
+data/uploads/*
+!data/uploads/.gitkeep
+data/backups/*
+!data/backups/.gitkeep
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+.DS_Store
+
+*.zip
