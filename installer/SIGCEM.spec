@@ -2,7 +2,7 @@
 from pathlib import Path
 from PyInstaller.utils.hooks import collect_data_files
 
-root = Path(SPECPATH).parent
+root = Path(SPECPATH).resolve().parent.parent
 
 datas = [
     (str(root / 'templates'), 'templates'),
