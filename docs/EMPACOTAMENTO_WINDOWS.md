@@ -12,6 +12,12 @@ Instale o Inno Setup 6, abra `installer\\SIGCEM.iss` e clique em Compile. O inst
 
 O instalador cria atalhos para `start_sigcem.bat`. Esse lançador inicia o servidor local e abre `http://127.0.0.1:3000` no navegador. Na primeira execução, crie o administrador pelo formulário inicial.
 
+## Compilação automática pelo GitHub Actions
+
+O arquivo `.github/workflows/build-windows.yml` compila o executável e o instalador automaticamente em um ambiente Windows do GitHub. No repositório, abra a aba **Actions**, selecione **Compilar instalador Windows**, clique em **Run workflow** e aguarde a conclusão. Ao finalizar, baixe os artefatos `SIGCEM-Setup-Windows` e `SIGCEM-Windows-portatil` na página da execução.
+
+Esse processo gera um instalador `.exe` mesmo quando o computador usado para editar o projeto não possui Windows. A compilação não inclui banco, documentos ou dados reais; esses dados são criados localmente no PC onde o SIGCEM for instalado.
+
 ## Dados e backup
 
 O banco, documentos e backups ficam na pasta `data` ao lado do executável. Antes de uso oficial, configure cópias externas e teste a restauração.
