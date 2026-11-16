@@ -2,7 +2,7 @@
 from pathlib import Path
 from PyInstaller.utils.hooks import collect_data_files
 
-root = Path(SPECPATH).resolve().parent.parent
+root = Path.cwd().resolve()
 
 datas = [
     (str(root / 'templates'), 'templates'),
@@ -12,7 +12,7 @@ datas = [
 datas += collect_data_files('reportlab')
 
 analysis = Analysis(
-    ['app.py'],
+    [str(root / 'app.py')],
     pathex=[str(root)],
     binaries=[],
     datas=datas,
